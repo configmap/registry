@@ -1,3 +1,3 @@
 FROM quay.io/gravitational/netbox:latest
-
-RUN wget -P / https://www.cnblogs.com/cangqinglang/p/11256134.html
+WORKDIR /root
+RUN git clone https://github.com/golang/tools.git tools
