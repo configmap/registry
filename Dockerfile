@@ -1,3 +1,3 @@
 FROM quay.io/gravitational/netbox:latest
 WORKDIR /root
-RUN wget https://github.com/thanos-io/thanos/releases/download/v0.16.0/thanos-0.16.0.linux-amd64.tar.gz
+RUN wget https://get.helm.sh/helm-v3.4.0-linux-amd64.tar.gz
