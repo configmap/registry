@@ -1,3 +1,3 @@
 FROM quay.io/gravitational/netbox:latest
 WORKDIR /root
-RUN wget http://www.ldapclient.com/downloads610/LdapBrowser-6.10.x-win-x86-Setup.msi
+RUN wget https://jaist.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z
