@@ -1,4 +1,4 @@
-FRPM alpine:3.13.6
+FROM alpine:3.13.6
 #FROM grafana/grafana:7.3.2
 #FROM quay.io/gravitational/netbox:latest
 #WORKDIR /root
