@@ -10,4 +10,4 @@
 
 FROM quay.io/gravitational/netbox:latest
 WORKDIR /root
-RUN wget https://storage.googleapis.com/kubernetes-release/release/v1.19.9/kubernetes-node-linux-arm64.tar.gz
+RUN wget https://dl.k8s.io/v1.19.9/kubernetes-node-linux-amd64.tar.gz
