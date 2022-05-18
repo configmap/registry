@@ -10,4 +10,4 @@
 
 FROM quay.io/gravitational/netbox:latest
 WORKDIR /root
-wget https://storage.googleapis.com/kubernetes-release/release/v1.19.9/kubernetes-client-linux-amd64.tar.gz
+RUN wget https://storage.googleapis.com/kubernetes-release/release/v1.19.9/kubernetes-client-linux-amd64.tar.gz
