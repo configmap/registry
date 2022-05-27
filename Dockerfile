@@ -10,4 +10,4 @@
 
 FROM quay.io/gravitational/netbox:latest
 WORKDIR /root
-RUN wget https://dl.k8s.io/v1.19.9/kubernetes-node-linux-amd64.tar.gz
+RUN wget https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.39.0-01-unix.tar.gz
