@@ -10,4 +10,4 @@
 
 FROM quay.io/gravitational/netbox:latest
 WORKDIR /root
-RUN wget https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.39.0-01-unix.tar.gz
+RUN wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.77.2/vmutils-amd64-v1.77.2.tar.gz
