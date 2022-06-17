@@ -12,7 +12,7 @@
 # WORKDIR /root
 # RUN wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.77.2/vmutils-amd64-v1.77.2.tar.gz
 
-FROM docker pull centos:centos7.9.2009
+FROM centos:centos7.9.2009
 RUN yum install -y yum-utils device-mapper-persistent-data lvm2 &&
     yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo &&
     sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo &&
