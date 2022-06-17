@@ -8,6 +8,15 @@
 #    && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #    && echo "Asia/Shanghai" > /etc/timezone 
 
-FROM quay.io/gravitational/netbox:latest
-WORKDIR /root
-RUN wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.77.2/vmutils-amd64-v1.77.2.tar.gz
+# FROM quay.io/gravitational/netbox:latest
+# WORKDIR /root
+# RUN wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.77.2/vmutils-amd64-v1.77.2.tar.gz
+
+FROM docker pull centos:centos7.9.2009
+RUN yum install -y yum-utils device-mapper-persistent-data lvm2 &&
+    yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo &&
+    sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo &&
+    yum makecache fast &&
+    yum -y install docker-ce &&
+    systemctl restart docker
+    
