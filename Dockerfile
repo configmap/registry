@@ -1,5 +1,11 @@
-FROM registry.cn-beijing.aliyuncs.com/demo-yu/demo:11.3.0-cudnn8-runtime-ubuntu20.04_1
-RUN wget https://bootstrap.pypa.io/get-pip.py && python3.8 get-pip.py
+FROM registry.cn-beijing.aliyuncs.com/demo-yu/demo:11.3.0-cudnn8-runtime-ubuntu20.04_3
+RUN ./webui.sh -f can_run_as_root --exit --skip-torch-cuda-test
+ENV VIRTUAL_ENV=/stable-diffusion-webui/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+CMD ["python3", "launch.py", "--listen --skip-torch-cuda-test --no-half"]
+
+#RUN wget https://bootstrap.pypa.io/get-pip.py && python3.8 get-pip.py
 
 #FROM alpine:3.13.6
 #FROM grafana/grafana:7.3.2
