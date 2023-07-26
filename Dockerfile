@@ -1,3 +1,6 @@
+FROM registry.cn-beijing.aliyuncs.com/demo-yu/demo:11.3.0-cudnn8-runtime-ubuntu20.04_1
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3.8 get-pip.py
+
 #FROM alpine:3.13.6
 #FROM grafana/grafana:7.3.2
 #FROM quay.io/gravitational/netbox:latest
@@ -8,9 +11,9 @@
 #    && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #    && echo "Asia/Shanghai" > /etc/timezone 
 
-FROM quay.io/gravitational/netbox:latest
-WORKDIR /root
-RUN wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+#FROM quay.io/gravitational/netbox:latest
+#WORKDIR /root
+#RUN wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
 
 # FROM centos:centos7.9.2009
 # RUN yum install -y yum-utils device-mapper-persistent-data lvm2 &&
