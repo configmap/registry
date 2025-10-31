@@ -1,32 +1,29 @@
-FROM registry.cn-beijing.aliyuncs.com/demo-yu/demo:11.3.0-cudnn8-runtime-ubuntu20.04_3
-#RUN ./webui.sh -f can_run_as_root --exit --skip-torch-cuda-test
-#ENV VIRTUAL_ENV=/stable-diffusion-webui/venv
-#ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+FROM opensuse/tumbleweed
 
-#CMD ["python3", "launch.py", "--listen --skip-torch-cuda-test --no-half"]
+LABEL maintainer="yourname@example.com"
+ENV container docker
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-RUN wget https://cdn.mysql.com/archives/mysql-8.0/mysql-8.0.31-linux-glibc2.12-x86_64.tar
-#RUN wget https://cdn-lfs-us-1.hf-mirror.com/repos/f3/c8/f3c8ca66be2bd64c06f26b308de2e2f3bfff2bf40b0c143e9f25f4c929ecfe57/b0c741ab4e2960b574e4735a1e847a159e3371213d5be2b189d1d2ffd6388298?response-content-disposition=attachment%3B+filename*%3DUTF-8%27%27DeepSeek-R1-Q4_K_M-00005-of-00009.gguf%3B+filename%3D%22DeepSeek-R1-Q4_K_M-00005-of-00009.gguf%22%3B&Expires=1739777593&Policy=eyJTdGF0ZW1lbnQiOlt7IkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTczOTc3NzU5M319LCJSZXNvdXJjZSI6Imh0dHBzOi8vY2RuLWxmcy11cy0xLmhmLmNvL3JlcG9zL2YzL2M4L2YzYzhjYTY2YmUyYmQ2NGMwNmYyNmIzMDhkZTJlMmYzYmZmZjJiZjQwYjBjMTQzZTlmMjVmNGM5MjllY2ZlNTcvYjBjNzQxYWI0ZTI5NjBiNTc0ZTQ3MzVhMWU4NDdhMTU5ZTMzNzEyMTNkNWJlMmIxODlkMWQyZmZkNjM4ODI5OD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPSoifV19&Signature=W0ibJFo06bh34%7EzYxzO3OdPQsLJbMD3wB24LnRFp8uNiU5Ln5acL7JPrAYQXqXSf91S7wz0X4TSNaKhNlS-3yMHzPlw-ZIUlXB6%7EaOLj%7E070Xxj%7EXAbYJSqZ6TkKKpLES-08KcJyY9P-JLjgpcgA60eFrUIVBVfCBbeLix6VZHJASky0k0JqJl-sTXKxwcf5pLUFgCC4xhstHj9dvi0gN%7EFPf5NBtYx45dAFbGULPdYGA-%7E%7E5HviJbroW%7EL-2DPAJYfT5En1DIvpNZ3cut6K76SbSXLV9PUM69%7ERyBCMEsqYRDzroyO6UJxx5QFtOLlhA-PKW8iCwa0z%7ELy5sJgvgw__&Key-Pair-Id=K24J24Z295AEI9
+# 安装 Cobbler 服务及依赖
+RUN zypper --non-interactive install --no-recommends -y \
+    cobbler  dhcp-server tftp apache2 \
+    python3 python3-pip python3-netaddr python3-requests \
+    syslinux grub2 grub2-x86_64-efi grub2-i386-efi \
+    rsync supervisor net-tools-deprecated  &&  \
+    zypper clean -a
 
-#FROM alpine:3.13.6
-#FROM grafana/grafana:7.3.2
-#FROM quay.io/gravitational/netbox:latest
-#WORKDIR /root
-#RUN curl -L -o db https://download2.vmware.com/patch/software/VUM/OFFLINE/offlinerelease-vROps-8.3.0-HF2-20210309-134679/vRealize-Operations-Manager-Appliance-8.3.0.17665806_OVF10.ova?HashKey=022b22ebe921949a2b85b62c9b8e97e4&params=%7B%22custnumber%22%3A%22ZCVldypwdHR0ZA%3D%3D%22%2C%22sourcefilesize%22%3A%222483+MB%22%2C%22patchName%22%3A%22vRealize-Operations-Manager-Appliance-8.3.0.17665806_OVF10.ova%22%2C%22languagecode%22%3A%22en%22%2C%22source%22%3A%22PATCH%22%2C%22downloadtype%22%3A%22manual%22%2C%22downloaduuid%22%3A%22e80e69bb-3a73-4803-9503-3a0e9f50a2ea%22%2C%22productname%22%3A%22vRealize+Operations+Manager%22%2C%22productversion%22%3A%228.3.0%22%7D&AuthKey=1645063209_171edf35e1a6c5fc1bed602655f94078
-#RUN grafana-cli plugins install redis-datasource
-#RUN apk add tzdata sysstat  \
-#    && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-#    && echo "Asia/Shanghai" > /etc/timezone 
+# 复制配置文件模板（你可以在本地提前准备好）
+COPY cobbler_settings.yaml /etc/cobbler/settings
+COPY supervisord.conf /etc/supervisord.conf
 
-#FROM quay.io/gravitational/netbox:latest
-#WORKDIR /root
-#RUN wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+# 创建必要目录
+RUN mkdir -p /var/lib/cobbler /var/lib/tftpboot /run/httpd /run/cobbler /run/supervisord
 
-# FROM centos:centos7.9.2009
-# RUN yum install -y yum-utils device-mapper-persistent-data lvm2 &&
-#     yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo &&
-#     sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo &&
-#     yum makecache fast &&
-#     yum -y install docker-ce &&
-#     systemctl restart docker
-    
+# 启用 Apache 模块
+RUN a2enmod proxy proxy_http wsgi
+
+# 暴露 Cobbler 服务端口
+EXPOSE 80 443 25151 69/udp
+
+# 入口：启动全部服务
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
